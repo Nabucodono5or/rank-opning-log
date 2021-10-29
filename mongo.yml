@@ -11,9 +11,13 @@ services:
       - ME_CONFIG_MONGODB_SERVER=mongodb
   mongodb:
     image: mongo
-    restart: always
+    # restart: always
     ports:
       - 6000:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_ROOT_PASSWORD=password    
+    volumes:
+      - db-openning:/data/db
+volumes:
+  db-openning:
