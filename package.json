@@ -2,9 +2,9 @@
   "name": "rank-opening-log",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.ts",
   "scripts": {
-    "dev": "nodemon src/app.js",
+    "dev": "nodemon src/app.ts",
     "Build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,5 +23,11 @@
     "prettier": "^2.4.1",
     "sucrase": "^3.20.2",
     "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "@types/inquirer": "^8.1.3",
+    "@types/mongoose": "^5.11.97",
+    "inquirer": "^8.2.0",
+    "mongoose": "^6.0.12"
   }
 }

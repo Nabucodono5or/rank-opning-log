@@ -2,10 +2,7 @@
 import mongoose from 'mongoose';
 
 async function database() {
-    await mongoose.connect('mongodb://127.0.0.1:6000/rank-openning', {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-    });
+    await mongoose.connect('mongodb://127.0.0.1:6000/rank-openning');
 }
 
 async function run() {
