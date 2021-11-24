@@ -1,0 +1,54 @@
+[x] Montar ambiente de desenvolvimento para typescript
+[x] testar dokers sem volumes
+[x] criar dockers com volumes
+[x] planejar banco de dados
+[] Criar menu (inserir musica, criar usuario, inserir nota, Atualizar nota, remover nota, Atualizar musica, remover musica, listar musica)
+[] inserir musica
+    [] questionário da musica
+[] criar usuario
+    [] questionário do usuario
+[] inserir nota
+    [] selecionar usuario (com opção de cancelar)
+    [] selecionar musica (sem usuario)
+    [] inserir nota
+    [] calcular media
+[]Atualizar nota
+    [] selecionar usuario
+    [] selecionar usuario (com opção de cancelar)
+    [] selecionar musica (com usuario)
+    [] reescrever nota
+    [] calcular media
+[] remover nota
+    [] selecionar usuario
+    [] selecionar musica (com usuario)
+    [] confirmar
+    [] calcular media
+[] Atualizar musica
+    [] selecionar musica
+    [] escolher opção a ser Atualizada
+    [] entrar dado
+[] remover musica
+    [] selecionar musica
+    [] confirmar
+[] listar musica
+    [] ordenar musicas por media
+    [] imprimir resultado formatado
+
+## banco de dados -- rank-openning; collection -- openning
+{
+    anime: string
+    tipo: "openning" | "ending" (opção)
+    numero: number (numero da openning ou ending)
+    musica:string
+    notas: [{user: "", nota: number}] (inicia vazio)
+    media: number
+}
+
+## collection --- usuarios
+{
+    user: string
+}
+
+## Criar objetos[controllers] para cada tipo de dado manipulado (musica, nota [que modifica objeto musica], usuario, nota)
+## criar menu e depois objetos
+## questions serão um objeto com vários métodos  com questions direntes e que recebem parâmetros diferentes
