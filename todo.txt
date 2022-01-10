@@ -1,26 +1,26 @@
 [x] Montar ambiente de desenvolvimento para typescript
-[x] testar dokers sem volumes
+[x] testar dockers sem volumes
 [x] criar dockers com volumes
 [x] planejar banco de dados
-[] Criar menu (inserir musica, criar usuario, inserir nota, Atualizar nota, remover nota, Atualizar musica, remover musica, listar musica)
+[] Criar menu (inserir musica, criar usuário, inserir nota, Atualizar nota, remover nota, Atualizar musica, remover musica, listar musica)
 [] inserir musica
     [] questionário da musica
-[] criar usuario
-    [] questionário do usuario
+[] criar usuário
+    [] questionário do usuário
 [] inserir nota
-    [] selecionar usuario (com opção de cancelar)
-    [] selecionar musica (sem usuario)
+    [] selecionar usuário (com opção de cancelar) # Precisa avisar quando não houver usuários.
+    [] selecionar musica (sem o usuário no objeto)
     [] inserir nota
     [] calcular media
 []Atualizar nota
-    [] selecionar usuario
-    [] selecionar usuario (com opção de cancelar)
-    [] selecionar musica (com usuario)
+    [] selecionar usuário
+    [] selecionar usuário (com opção de cancelar)
+    [] selecionar musica (com usuário no objeto)
     [] reescrever nota
     [] calcular media
 [] remover nota
-    [] selecionar usuario
-    [] selecionar musica (com usuario)
+    [] selecionar usuário
+    [] selecionar musica (com usuário)
     [] confirmar
     [] calcular media
 [] Atualizar musica
@@ -34,21 +34,23 @@
     [] ordenar musicas por media
     [] imprimir resultado formatado
 
-## banco de dados -- rank-openning; collection -- openning
+## banco de dados -- rank-opening; collection -- opening
 {
     anime: string
-    tipo: "openning" | "ending" (opção)
-    numero: number (numero da openning ou ending)
+    tipo: "opening" | "ending" (opção)
+    numero: number (numero da opening ou ending)
     musica:string
-    notas: [{user: "", nota: number}] (inicia vazio)
+    notas: [{user: "", nota: number}] (inicia vazio) #Esse usuário será criado na etapa de inserir notas e então adicionado a esse objeto. user será o valor selecionado
     media: number
 }
 
-## collection --- usuarios
+## collection --- usuário
 {
     user: string
 }
 
-## Criar objetos[controllers] para cada tipo de dado manipulado (musica, nota [que modifica objeto musica], usuario, nota)
+## Criar objetos[controllers] para cada tipo de dado manipulado (musica, nota [que modifica objeto musica], usuário, nota)
 ## criar menu e depois objetos
 ## questions serão um objeto com vários métodos  com questions direntes e que recebem parâmetros diferentes
+
+# Preciso criar dois esquemas (musica e usuário)
