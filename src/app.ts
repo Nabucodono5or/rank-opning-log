@@ -7,7 +7,7 @@ async function database() {
 }
 
 async function run() {
-    console.log('Test rank of anime opennings');
+    console.log('Test rank of anime openings');
     console.log();
     await database();
     await mainMenu();

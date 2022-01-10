@@ -5,7 +5,7 @@ const questions = new Questions();
 const message = 'Escolha uma opção: ';
 const options: Array<string> = [
     'Inserir música',
-    'Criar usuario',
+    'Criar usuário',
     'Inserir nota',
     'Atualizar nota',
     'Remover nota',
