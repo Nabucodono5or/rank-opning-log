@@ -1,44 +1,17 @@
 import { prompt } from 'inquirer';
-
+import Questions from '../utils/questions';
 class InsertMusicMenuController {
-    private questions = [
-        {
-            type: 'input',
-            name: 'anime',
-            message: 'Anime que apresenta essa canção:',
-        },
-        {
-            type: 'list',
-            name: 'tipo',
-            message: 'Qual o tipo:',
-            choices: ['opening', 'ending'],
-        },
-        {
-            type: 'input',
-            name: 'numero',
-            message: 'Número da opening ou ending no anime:',
-        },
-        {
-            type: 'input',
-            name: 'musica',
-            message: 'Título da música:',
-        },
-        {
-            type: 'confirm',
-            name: 'salvar',
-            message: 'Confirmar informações?',
-        },
-    ];
-
+    private questions = new Questions();
+    private options = ['opening', 'ending'];
     private message = 'Entre com as informações sobre a canção';
 
     async showMenu(): Promise<void> {
-        const answers = await prompt(this.questions);
+        const answers = await prompt(this.questions.questionInsertMusic(this.message, this.options));
         console.log(answers);
     }
 }
 
-export default InsertMusicMenuController
+export default InsertMusicMenuController;
 
 // {
 //     anime: string

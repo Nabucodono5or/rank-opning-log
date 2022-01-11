@@ -1,8 +1,8 @@
-import { QuestionsInterface } from '../types/questions';
+import { QuestionListInterface, QuestionInputInterface, QuestionsArray } from '../types/questions';
 
 class Questions {
-    questionMainMenu<T>(message: string, options: Array<T>): QuestionsInterface<T> {
-        const questions: QuestionsInterface<T> = [
+    questionMainMenu<T>(message: string, options: Array<T>): QuestionListInterface<T>[] {
+        const questions: QuestionListInterface<T>[] = [
             {
                 type: 'list',
                 name: 'option',
@@ -14,6 +14,38 @@ class Questions {
         return questions;
     }
 
+    questionInsertMusic<T>(message: string, options: Array<T>): QuestionsArray<T> {
+        const questions: QuestionsArray<T> = [
+            {
+                type: 'input',
+                name: 'anime',
+                message: 'Anime que apresenta essa canção:',
+            },
+            {
+                type: 'list',
+                name: 'tipo',
+                message: 'Qual o tipo:',
+                choices: options,
+            },
+            {
+                type: 'input',
+                name: 'numero',
+                message: 'Número da opening ou ending no anime:',
+            },
+            {
+                type: 'input',
+                name: 'musica',
+                message: 'Título da música:',
+            },
+            {
+                type: 'confirm',
+                name: 'salvar',
+                message: 'Confirmar informações?',
+            },
+        ];
+
+        return questions;
+    }
 }
 
 export default Questions;
