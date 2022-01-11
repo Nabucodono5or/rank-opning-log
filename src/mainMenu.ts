@@ -1,8 +1,9 @@
 import { prompt } from 'inquirer';
 import Questions from './utils/questions';
+import InsertMusicMenu from './controllers/insertMusicMenu';
 
-const questions = new Questions();
-const message = 'Escolha uma opção: ';
+const questions: Questions = new Questions();
+const message: string = 'Escolha uma opção: ';
 const options: Array<string> = [
     'Inserir música',
     'Criar usuário',
@@ -17,7 +18,11 @@ const options: Array<string> = [
 const mainMenu = async (): Promise<void> => {
     const answers = await prompt(questions.questionMainMenu(message, options));
 
-    if (answers.option === options[0]) console.log(options[0]);
+    if (answers.option === options[0]) {
+        const insertMusicMenu = new InsertMusicMenu();
+        insertMusicMenu.showMenu();
+    };
+    
     if (answers.option === options[1]) console.log(options[1]);
     if (answers.option === options[2]) console.log(options[2]);
     if (answers.option === options[3]) console.log(options[3]);

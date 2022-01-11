@@ -54,3 +54,5 @@
 ## questions serão um objeto com vários métodos  com questions direntes e que recebem parâmetros diferentes
 
 # Preciso criar dois esquemas (musica e usuário)
+
+## Question para cada tipo de list, input, etc
