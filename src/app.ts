@@ -4,9 +4,8 @@ import mainMenu from './mainMenu';
 
 async function database() {
     try {
-        await mongoose.connect('mongodb://127.0.0.1:6000/rank-opening');
-        console.log("Database connected!");
-        
+        await mongoose.connect('mongodb://localhost:6000/rank-opening');
+        console.log('Database connected!');
     } catch (error) {
         console.log(error);
     }

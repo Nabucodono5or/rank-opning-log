@@ -1,13 +1,36 @@
 import { prompt } from 'inquirer';
+import { answerInsertMusicMenuInterface } from '../types/answers';
 import Questions from '../utils/questions';
+import Music from '../schemas/Music';
+
 class InsertMusicMenuController {
     private questions = new Questions();
     private options = ['opening', 'ending'];
     private message = 'Entre com as informações sobre a canção';
 
     async showMenu(): Promise<void> {
-        const answers = await prompt(this.questions.questionInsertMusic(this.message, this.options));
-        console.log(answers);
+        const answers: answerInsertMusicMenuInterface = await prompt(
+            this.questions.questionInsertMusic(this.message, this.options),
+        );
+
+        this.saveMusic(answers);
+    }
+
+    async saveMusic(data: answerInsertMusicMenuInterface): Promise<void> {
+        try {
+            const music = await Music.create({
+                anime: data.anime,
+                tipo: data.tipo,
+                numero: data.numero,
+                musica: data.musica,
+                nota: [],
+                media: 0,
+            });
+
+            music.save();
+        } catch (e: any) {
+            console.log(e.message);
+        }
     }
 }
 
