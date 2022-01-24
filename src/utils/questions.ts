@@ -1,4 +1,4 @@
-import { QuestionListInterface, QuestionInputInterface, QuestionsArray } from '../types/questions';
+import { QuestionListInterface, QuestionInputInterface, QuestionsArray, QuestionConfirm } from '../types/questions';
 
 class Questions {
     questionMainMenu<T>(message: string, options: Array<T>): QuestionListInterface<T>[] {
@@ -45,6 +45,18 @@ class Questions {
         ];
 
         return questions;
+    }
+
+    questionConfirmContinueMenu(): QuestionConfirm[] {
+        const question = [
+            {
+                type: 'confirm',
+                name: 'option',
+                message: 'Continuar operação?',
+            },
+        ];
+
+        return question;
     }
 }
 

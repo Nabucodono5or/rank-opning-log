@@ -1,7 +1,8 @@
 import { prompt } from 'inquirer';
-import { answerInsertMusicMenuInterface } from '../types/answers';
+import { answerInsertMusicMenuInterface, answerConfirmContinueMenu } from '../types/answers';
 import Questions from '../utils/questions';
 import Music from '../schemas/Music';
+import mainMenu from '../mainMenu';
 
 class InsertMusicMenuController {
     private questions: Questions = new Questions();
@@ -13,7 +14,21 @@ class InsertMusicMenuController {
             this.questions.questionInsertMusic(this.message, this.options),
         );
 
-        this.saveMusic(answers);
+        console.log(answers);
+        if (answers.salvar) {
+            this.saveMusic(answers);
+        } else {
+            this.doContinueOperation();
+        }
+    }
+
+    async doContinueOperation(): Promise<void> {
+        const answer: answerConfirmContinueMenu = await prompt(this.questions.questionConfirmContinueMenu());
+        if (answer.option) {
+            this.showMenu();
+        } else {
+            mainMenu();
+        }
     }
 
     async saveMusic(data: answerInsertMusicMenuInterface): Promise<void> {
@@ -30,6 +45,8 @@ class InsertMusicMenuController {
             music.save();
         } catch (e: any) {
             console.log(e.message);
+        } finally {
+            mainMenu();
         }
     }
 }
