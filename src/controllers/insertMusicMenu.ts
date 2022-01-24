@@ -4,9 +4,9 @@ import Questions from '../utils/questions';
 import Music from '../schemas/Music';
 
 class InsertMusicMenuController {
-    private questions = new Questions();
-    private options = ['opening', 'ending'];
-    private message = 'Entre com as informações sobre a canção';
+    private questions: Questions = new Questions();
+    private options: string[] = ['opening', 'ending'];
+    private message: string = 'Entre com as informações sobre a canção';
 
     async showMenu(): Promise<void> {
         const answers: answerInsertMusicMenuInterface = await prompt(
@@ -23,7 +23,7 @@ class InsertMusicMenuController {
                 tipo: data.tipo,
                 numero: data.numero,
                 musica: data.musica,
-                nota: [],
+                notas: [],
                 media: 0,
             });
 
