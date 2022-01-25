@@ -13,3 +13,8 @@ export type answerInsertMusicMenuInterface = {
     musica: string,
     salvar: boolean,
 };
+
+export type answerInsertUserMenuInterface = {
+    name: string;
+    salvar: boolean;
+}

@@ -8,6 +8,7 @@ class InsertMusicMenuController {
     private questions: Questions = new Questions();
     private options: string[] = ['opening', 'ending'];
     private message: string = 'Entre com as informações sobre a canção';
+    private messageConfirm: string = 'Continuar operação?';
 
     async showMenu(): Promise<void> {
         const answers: answerInsertMusicMenuInterface = await prompt(
@@ -23,7 +24,7 @@ class InsertMusicMenuController {
     }
 
     async doContinueOperation(): Promise<void> {
-        const answer: answerConfirmContinueMenu = await prompt(this.questions.questionConfirmContinueMenu());
+        const answer: answerConfirmContinueMenu = await prompt(this.questions.questionConfirmContinueMenu(this.messageConfirm));
         if (answer.option) {
             this.showMenu();
         } else {

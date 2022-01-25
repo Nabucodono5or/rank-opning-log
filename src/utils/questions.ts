@@ -47,12 +47,29 @@ class Questions {
         return questions;
     }
 
-    questionConfirmContinueMenu(): QuestionConfirm[] {
+    questionConfirmContinueMenu(message: string): QuestionConfirm[] {
         const question = [
             {
                 type: 'confirm',
                 name: 'option',
-                message: 'Continuar operação?',
+                message,
+            },
+        ];
+
+        return question;
+    }
+
+    questionInputUserName<T>(message: string): QuestionsArray<T> {
+        const question: QuestionsArray<T> = [
+            {
+                type: 'input',
+                name: 'user',
+                message: 'Nome de Usuário:',
+            },
+            {
+                type: 'confirm',
+                name: 'salvar',
+                message: 'Confirmar informações?',
             },
         ];
 

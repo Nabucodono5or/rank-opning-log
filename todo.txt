@@ -3,8 +3,8 @@
 [x] criar dockers com volumes
 [x] planejar banco de dados
 [] Criar menu (inserir musica, criar usuário, inserir nota, Atualizar nota, remover nota, Atualizar musica, remover musica, listar musica)
-[] inserir musica
-    [] questionário da musica
+[x] inserir musica
+    [x] questionário da musica
 [] criar usuário
     [] questionário do usuário
 [] inserir nota
