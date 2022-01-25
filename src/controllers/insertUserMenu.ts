@@ -7,14 +7,12 @@ import mainMenu from '../mainMenu';
 class InsertUserMenuController {
     private questions: Questions = new Questions();
     private message: string = 'Nome de Usuário:';
-    private messageConfirm: string = 'Continuar operações?'
+    private messageConfirm: string = 'Continuar operações?';
 
     async showMenu(): Promise<void> {
         const answers: answerInsertUserMenuInterface = await prompt(
             this.questions.questionInputUserName<void>(this.message),
         );
-
-        console.log(answers);
 
         if (answers.salvar) {
             this.saveUser(answers);
@@ -24,7 +22,9 @@ class InsertUserMenuController {
     }
 
     async doContinueOperation(): Promise<void> {
-        const answer: answerConfirmContinueMenu = await prompt(this.questions.questionConfirmContinueMenu(this.messageConfirm));
+        const answer: answerConfirmContinueMenu = await prompt(
+            this.questions.questionConfirmContinueMenu(this.messageConfirm),
+        );
         if (answer.option) {
             this.showMenu();
         } else {
@@ -39,6 +39,7 @@ class InsertUserMenuController {
             });
 
             user.save();
+            console.log('Usuário Criado com Sucesso!');
         } catch (e: any) {
             console.log(e.message);
         } finally {

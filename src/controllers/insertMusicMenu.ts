@@ -15,7 +15,6 @@ class InsertMusicMenuController {
             this.questions.questionInsertMusic(this.message, this.options),
         );
 
-        console.log(answers);
         if (answers.salvar) {
             this.saveMusic(answers);
         } else {
@@ -24,7 +23,9 @@ class InsertMusicMenuController {
     }
 
     async doContinueOperation(): Promise<void> {
-        const answer: answerConfirmContinueMenu = await prompt(this.questions.questionConfirmContinueMenu(this.messageConfirm));
+        const answer: answerConfirmContinueMenu = await prompt(
+            this.questions.questionConfirmContinueMenu(this.messageConfirm),
+        );
         if (answer.option) {
             this.showMenu();
         } else {
@@ -44,6 +45,7 @@ class InsertMusicMenuController {
             });
 
             music.save();
+            console.log('Música Criada com Sucesso!');
         } catch (e: any) {
             console.log(e.message);
         } finally {
