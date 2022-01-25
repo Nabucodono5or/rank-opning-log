@@ -1,8 +1,9 @@
 import { prompt } from 'inquirer';
 import Questions from './utils/questions';
-import { answerMainMenuInterface } from './types/answers';
+import { answerListInterface } from './types/answers';
 import InsertMusicMenu from './controllers/insertMusicMenu';
 import InsertUserMenu from './controllers/insertUserMenu';
+import InsertRatingMenu from './controllers/insertRatingMenu';
 import mongoose from 'mongoose';
 
 const questions: Questions = new Questions();
@@ -20,7 +21,7 @@ const options: Array<string> = [
 ];
 
 const mainMenu = async (): Promise<void> => {
-    const answers: answerMainMenuInterface = await prompt(questions.questionMainMenu(message, options));
+    const answers: answerListInterface = await prompt(questions.questionListMenu(message, options));
 
     if (answers.option === options[0]) {
         const insertMusicMenu = new InsertMusicMenu();
@@ -32,7 +33,11 @@ const mainMenu = async (): Promise<void> => {
         insertUserMenuController.showMenu();
     }
 
-    if (answers.option === options[2]) console.log(options[2]);
+    if (answers.option === options[2]) {
+        const insertRatingMenuController = new InsertRatingMenu();
+        insertRatingMenuController.showMenu();
+    }
+
     if (answers.option === options[3]) console.log(options[3]);
     if (answers.option === options[4]) console.log(options[4]);
     if (answers.option === options[5]) console.log(options[5]);

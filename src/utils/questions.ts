@@ -1,7 +1,7 @@
 import { QuestionListInterface, QuestionInputInterface, QuestionsArray, QuestionConfirm } from '../types/questions';
 
 class Questions {
-    questionMainMenu<T>(message: string, options: Array<T>): QuestionListInterface<T>[] {
+    questionListMenu<T>(message: string, options: Array<T>): QuestionListInterface<T>[] {
         const questions: QuestionListInterface<T>[] = [
             {
                 type: 'list',

@@ -5,8 +5,8 @@
 [] Criar menu (inserir musica, criar usuário, inserir nota, Atualizar nota, remover nota, Atualizar musica, remover musica, listar musica)
 [x] inserir musica
     [x] questionário da musica
-[] criar usuário
-    [] questionário do usuário
+[x] criar usuário
+    [x] questionário do usuário
 [] inserir nota
     [] selecionar usuário (com opção de cancelar) # Precisa avisar quando não houver usuários.
     [] selecionar musica (sem o usuário no objeto)
