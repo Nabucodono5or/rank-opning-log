@@ -64,7 +64,7 @@ class Questions {
             {
                 type: 'input',
                 name: 'user',
-                message: 'Nome de Usuário:',
+                message,
             },
             {
                 type: 'confirm',

@@ -2,6 +2,7 @@ import { prompt } from 'inquirer';
 import Questions from './utils/questions';
 import { answerMainMenuInterface } from './types/answers';
 import InsertMusicMenu from './controllers/insertMusicMenu';
+import InsertUserMenu from './controllers/insertUserMenu';
 import mongoose from 'mongoose';
 
 const questions: Questions = new Questions();
@@ -26,7 +27,11 @@ const mainMenu = async (): Promise<void> => {
         insertMusicMenu.showMenu();
     }
 
-    if (answers.option === options[1]) console.log(options[1]);
+    if (answers.option === options[1]) {
+        const insertUserMenuController = new InsertUserMenu();
+        insertUserMenuController.showMenu();
+    }
+
     if (answers.option === options[2]) console.log(options[2]);
     if (answers.option === options[3]) console.log(options[3]);
     if (answers.option === options[4]) console.log(options[4]);

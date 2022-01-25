@@ -6,7 +6,7 @@ import mainMenu from '../mainMenu';
 
 class InsertUserMenuController {
     private questions: Questions = new Questions();
-    private message: string = '';
+    private message: string = 'Nome de Usuário:';
 
     async showMenu(): Promise<void> {
         const answers: answerInsertUserMenuInterface = await prompt(
