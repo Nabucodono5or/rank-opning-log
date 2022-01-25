@@ -9,6 +9,7 @@ class InsertRatingMenuController {
     private questions: Questions = new Questions();
     private usersList: string[] = [];
     private message: string = 'Escolha o usuário a dar a nota:';
+    private cancelar: 'Cancelar' = 'Cancelar';
 
     async loadUsers(): Promise<string[]> {
         const users = await User.find();
@@ -21,16 +22,21 @@ class InsertRatingMenuController {
     }
 
     async showMenu(): Promise<void> {
-        const cancelar: 'Cancelar' = 'Cancelar';
-
         this.usersList = await this.loadUsers();
-        this.usersList.push(cancelar);
+        this.usersList.push(this.cancelar);
 
         const answer: answerListInterface = await prompt(this.questions.questionListMenu(this.message, this.usersList));
-        console.log(answer);
-        if (answer.option === cancelar) {
+
+        if (this.isCancelar(answer, this.cancelar)) {
             mainMenu();
         }
+    }
+
+    private isCancelar(answer: answerListInterface, cancelar: 'Cancelar'): boolean {
+        if (answer.option === cancelar) {
+            return true;
+        }
+        return false;
     }
 
     // async doContinueOperation(): Promise<void> {
