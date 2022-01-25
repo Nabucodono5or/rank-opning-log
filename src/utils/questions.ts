@@ -63,7 +63,7 @@ class Questions {
         const question: QuestionsArray<T> = [
             {
                 type: 'input',
-                name: 'user',
+                name: 'name',
                 message,
             },
             {

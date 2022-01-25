@@ -1,12 +1,13 @@
 import { prompt } from 'inquirer';
 import User from '../schemas/User';
-import { answerInsertUserMenuInterface } from '../types/answers';
+import { answerInsertUserMenuInterface, answerConfirmContinueMenu } from '../types/answers';
 import Questions from '../utils/questions';
 import mainMenu from '../mainMenu';
 
 class InsertUserMenuController {
     private questions: Questions = new Questions();
     private message: string = 'Nome de Usuário:';
+    private messageConfirm: string = 'Continuar operações?'
 
     async showMenu(): Promise<void> {
         const answers: answerInsertUserMenuInterface = await prompt(
@@ -14,41 +15,36 @@ class InsertUserMenuController {
         );
 
         console.log(answers);
-        
-        // if (answers.salvar) {
-        //     this.saveMusic(answers);
-        // } else {
-        //     this.doContinueOperation();
-        // }
+
+        if (answers.salvar) {
+            this.saveUser(answers);
+        } else {
+            this.doContinueOperation();
+        }
     }
 
     async doContinueOperation(): Promise<void> {
-        // const answer: answerConfirmContinueMenu = await prompt(this.questions.questionConfirmContinueMenu());
-        // if (answer.option) {
-        //     this.showMenu();
-        // } else {
-        //     mainMenu();
-        // }
+        const answer: answerConfirmContinueMenu = await prompt(this.questions.questionConfirmContinueMenu(this.messageConfirm));
+        if (answer.option) {
+            this.showMenu();
+        } else {
+            mainMenu();
+        }
     }
 
-    // async saveMusic(data: answerInsertMusicMenuInterface): Promise<void> {
-    //     try {
-    //         const music = await Music.create({
-    //             anime: data.anime,
-    //             tipo: data.tipo,
-    //             numero: data.numero,
-    //             musica: data.musica,
-    //             notas: [],
-    //             media: 0,
-    //         });
+    async saveUser(data: answerInsertUserMenuInterface): Promise<void> {
+        try {
+            const user = await User.create({
+                name: data.name,
+            });
 
-    //         music.save();
-    //     } catch (e: any) {
-    //         console.log(e.message);
-    //     } finally {
-    //         mainMenu();
-    //     }
-    // }
+            user.save();
+        } catch (e: any) {
+            console.log(e.message);
+        } finally {
+            mainMenu();
+        }
+    }
 }
 
 export default InsertUserMenuController;
