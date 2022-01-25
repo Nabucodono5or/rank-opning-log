@@ -1,7 +1,8 @@
 import { prompt } from 'inquirer';
+import { answerListInterface } from '../types/answers';
 import User from '../schemas/User';
 import Questions from '../utils/questions';
-import { answerListInterface } from '../types/answers';
+import mainMenu from '../mainMenu';
 // import mainMenu from '../mainMenu';
 
 class InsertRatingMenuController {
@@ -20,10 +21,16 @@ class InsertRatingMenuController {
     }
 
     async showMenu(): Promise<void> {
+        const cancelar: 'Cancelar' = 'Cancelar';
+
         this.usersList = await this.loadUsers();
+        this.usersList.push(cancelar);
+
         const answer: answerListInterface = await prompt(this.questions.questionListMenu(this.message, this.usersList));
         console.log(answer);
-        
+        if (answer.option === cancelar) {
+            mainMenu();
+        }
     }
 
     // async doContinueOperation(): Promise<void> {
