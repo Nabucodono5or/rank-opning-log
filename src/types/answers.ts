@@ -18,3 +18,10 @@ export type answerInsertUserMenuInterface = {
     name: string;
     salvar: boolean;
 };
+
+export type answerObjectListInterface<T> = {
+    option: {
+        name: string;
+        value: T;
+    };
+};

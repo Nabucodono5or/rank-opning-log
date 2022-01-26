@@ -8,7 +8,7 @@
 [x] criar usuário
     [x] questionário do usuário
 [] inserir nota
-    [] selecionar usuário (com opção de cancelar) # Precisa avisar quando não houver usuários.
+    [x] selecionar usuário (com opção de cancelar) # Precisa avisar quando não houver usuários.
     [] selecionar musica (sem o usuário no objeto)
     [] inserir nota
     [] calcular media

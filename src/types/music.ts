@@ -5,7 +5,7 @@ export interface musicSchemaInterface extends Document {
     tipo: string[];
     numero: number;
     musica: string;
-    notas: { user: string; nota: number };
+    notas: [{ user: string; nota: number }];
     media: number;
 }
 
