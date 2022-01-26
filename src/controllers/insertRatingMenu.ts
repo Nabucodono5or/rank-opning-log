@@ -28,7 +28,7 @@ class InsertRatingMenuController {
     async loadMusic(): Promise<optionObject<musicSchemaInterface>[]> {
         let musics: musicSchemaInterface[] = await Music.find();
 
-        const options: optionObject<musicSchemaInterface>[] = musics.map(
+        const musicsFormattedToOptions: optionObject<musicSchemaInterface>[] = musics.map(
             (music: musicSchemaInterface): optionObject<musicSchemaInterface> => {
                 const option: optionObject<musicSchemaInterface> = {
                     name: `${music.anime} - ${music.musica} ( ${music.tipo} ${music.numero} )`,
@@ -39,7 +39,7 @@ class InsertRatingMenuController {
             },
         );
 
-        return options;
+        return musicsFormattedToOptions;
     }
 
     async showMenu(): Promise<void> {
@@ -47,45 +47,45 @@ class InsertRatingMenuController {
         this.usersList.push(this.cancelar);
         this.musicList = await this.loadMusic();
 
-        const answerUser: answerListInterface = await prompt(
+        const answerWithUserName: answerListInterface = await prompt(
             this.questions.questionListMenu(this.messageUser, this.usersList),
         );
 
-        if (this.isCanceled(answerUser, this.cancelar)) {
+        if (this.isCanceled(answerWithUserName, this.cancelar)) {
             mainMenu();
         }
 
-        this.musicList = this.filterNotas(this.musicList, answerUser.option);
+        this.musicList = this.filterNotas(this.musicList, answerWithUserName.option);
 
-        const answerMusic: answerObjectListInterface<musicSchemaInterface> = await prompt(
+        const answerWithMusicObject: answerObjectListInterface<musicSchemaInterface> = await prompt(
             this.questions.questionListMenu(this.messageMusic, this.musicList),
         );
 
         // console.log(this.musicList);
-        console.log(answerMusic);
+        console.log(answerWithMusicObject);
         
     }
 
     private filterNotas(
-        oldOptions: optionObject<musicSchemaInterface>[],
+        oldOptionsOfMusic: optionObject<musicSchemaInterface>[],
         userSelected: string,
     ): optionObject<musicSchemaInterface>[] {
-        const newOptions: optionObject<musicSchemaInterface>[] = oldOptions.filter(
+        const newOptionsOfMusic: optionObject<musicSchemaInterface>[] = oldOptionsOfMusic.filter(
             (option: optionObject<musicSchemaInterface>) => {
                 return !this.isUserAssigned(option.value.notas, userSelected);
             },
         );
 
-        return newOptions;
+        return newOptionsOfMusic;
     }
 
     private isUserAssigned(option: Array<notasObject>, userSelected: string): boolean {
-        let result = false;
+        let assigned = false;
         option.forEach((op) => {
-            if (op.user === userSelected) result = true;
+            if (op.user === userSelected) assigned = true;
         });
 
-        return result;
+        return assigned;
     }
 
     private isCanceled(answer: answerListInterface, cancelar: 'Cancelar'): boolean {
