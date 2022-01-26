@@ -1,5 +1,10 @@
 import { prompt } from 'inquirer';
-import { answerListInterface, answerObjectListInterface } from '../types/answers';
+import {
+    answerListInterface,
+    answerObjectListInterface,
+    answerConfirmContinueMenu,
+    answerInputNumber,
+} from '../types/answers';
 import { musicSchemaInterface } from '../types/music';
 import { optionObject, notasObject } from '../types/utility';
 import Questions from '../utils/questions';
@@ -15,6 +20,7 @@ class InsertRatingMenuController {
     private messageMusic: string = 'Escolha a música para dar a nota:';
     private cancelar: 'Cancelar' = 'Cancelar';
     private userSelected: string = '';
+    private messageToConfirm: string = 'Confirmar escolha?';
 
     async loadUsers(): Promise<string[]> {
         const users = await User.find();
@@ -69,6 +75,26 @@ class InsertRatingMenuController {
         );
 
         console.log(answerWithMusicObjectSelected);
+
+        if (await this.doContinueOperation()) {
+            this.showMenuNotas(answerWithMusicObjectSelected);
+        } else {
+            this.showMenu();
+        }
+    }
+
+    private async showMenuNotas(
+        answerWithMusicObjectSelected: answerObjectListInterface<musicSchemaInterface>,
+    ): Promise<void> {
+        const musicObject: musicSchemaInterface = answerWithMusicObjectSelected.option;
+
+        const answerWithNota: answerInputNumber = await prompt(
+            this.questions.questionInputNumber('Entre com a sua nota: '),
+        );
+        const ratingOfUser: notasObject = { user: this.userSelected, nota: answerWithNota.nota };
+        
+        musicObject.notas.push(ratingOfUser);
+        console.log(musicObject);
     }
 
     private filterNotas(oldOptionsOfMusic: optionObject<musicSchemaInterface>[]): optionObject<musicSchemaInterface>[] {
@@ -97,16 +123,13 @@ class InsertRatingMenuController {
         return false;
     }
 
-    // async doContinueOperation(): Promise<void> {
-    //     const answer: answerConfirmContinueMenu = await prompt(
-    //         this.questions.questionConfirmContinueMenu(this.messageConfirm),
-    //     );
-    //     if (answer.option) {
-    //         this.showMenu();
-    //     } else {
-    //         mainMenu();
-    //     }
-    // }
+    private async doContinueOperation(): Promise<boolean> {
+        const answer: answerConfirmContinueMenu = await prompt(
+            this.questions.questionConfirmContinueMenu(this.messageToConfirm),
+        );
+
+        return answer.option;
+    }
 
     // async saveUser(data: answerInsertUserMenuInterface): Promise<void> {
     //     try {

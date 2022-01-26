@@ -20,8 +20,9 @@ export type answerInsertUserMenuInterface = {
 };
 
 export type answerObjectListInterface<T> = {
-    option: {
-        name: string;
-        value: T;
-    };
+    option: T;
+};
+
+export type answerInputNumber = {
+    nota: number;
 };

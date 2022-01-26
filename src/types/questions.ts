@@ -17,4 +17,10 @@ export type QuestionConfirm = {
     message: string;
 };
 
+export type QuestionInputNumberInterface = {
+    type: string;
+    nota: string;
+    message: string;    
+}
+
 export type QuestionsArray<T> = (QuestionConfirm | QuestionInputInterface | QuestionListInterface<T>)[];

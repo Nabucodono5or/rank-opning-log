@@ -1,4 +1,9 @@
-import { QuestionListInterface, QuestionInputInterface, QuestionsArray, QuestionConfirm } from '../types/questions';
+import {
+    QuestionListInterface,
+    QuestionsArray,
+    QuestionConfirm,
+    QuestionInputNumberInterface,
+} from '../types/questions';
 
 class Questions {
     questionListMenu<T>(message: string, options: Array<T>): QuestionListInterface<T>[] {
@@ -70,6 +75,18 @@ class Questions {
                 type: 'confirm',
                 name: 'salvar',
                 message: 'Confirmar informações?',
+            },
+        ];
+
+        return question;
+    }
+
+    questionInputNumber(message: string): QuestionInputNumberInterface[] {
+        const question: QuestionInputNumberInterface[] = [
+            {
+                type: 'number',
+                name: 'nota',
+                message,
             },
         ];
 
