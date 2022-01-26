@@ -1,13 +1,16 @@
 import { prompt } from 'inquirer';
 import { answerListInterface } from '../types/answers';
-import User from '../schemas/User';
+import { musicSchemaInterface } from '../types/music';
+import { optionObject } from '../types/utility';
 import Questions from '../utils/questions';
+import User from '../schemas/User';
+import Music from '../schemas/Music';
 import mainMenu from '../mainMenu';
-// import mainMenu from '../mainMenu';
 
 class InsertRatingMenuController {
     private questions: Questions = new Questions();
     private usersList: string[] = [];
+    private musicList: optionObject<musicSchemaInterface>[] = [];
     private message: string = 'Escolha o usuário a dar a nota:';
     private cancelar: 'Cancelar' = 'Cancelar';
 
@@ -21,18 +24,38 @@ class InsertRatingMenuController {
         return usersName;
     }
 
+    async loadMusic(): Promise<optionObject<musicSchemaInterface>[]> {
+        const musics = await Music.find();
+
+        const options: optionObject<musicSchemaInterface>[] = musics.map(
+            (music: musicSchemaInterface): optionObject<musicSchemaInterface> => {
+                const option: optionObject<musicSchemaInterface> = {
+                    name: `${music.anime} - ${music.musica} ( ${music.tipo} ${music.numero} )`,
+                    value: music,
+                };
+
+                return option;
+            },
+        );
+
+        return options;
+    }
+
     async showMenu(): Promise<void> {
         this.usersList = await this.loadUsers();
         this.usersList.push(this.cancelar);
+        this.musicList = await this.loadMusic();
 
         const answer: answerListInterface = await prompt(this.questions.questionListMenu(this.message, this.usersList));
 
-        if (this.isCancelar(answer, this.cancelar)) {
+        if (this.isCanceled(answer, this.cancelar)) {
             mainMenu();
         }
+
+        console.log(this.musicList);
     }
 
-    private isCancelar(answer: answerListInterface, cancelar: 'Cancelar'): boolean {
+    private isCanceled(answer: answerListInterface, cancelar: 'Cancelar'): boolean {
         if (answer.option === cancelar) {
             return true;
         }

@@ -9,6 +9,7 @@ export interface musicSchemaInterface extends Document {
     media: number;
 }
 
+
 // {
 //     anime: { type: String, required: true },
 //     tipo: { type: [String], required: true },
