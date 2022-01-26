@@ -14,6 +14,7 @@ class InsertRatingMenuController {
     private messageUser: string = 'Escolha o usuário a dar a nota:';
     private messageMusic: string = 'Escolha a música para dar a nota:';
     private cancelar: 'Cancelar' = 'Cancelar';
+    private userSelected: string = '';
 
     async loadUsers(): Promise<string[]> {
         const users = await User.find();
@@ -47,42 +48,43 @@ class InsertRatingMenuController {
         this.usersList.push(this.cancelar);
         this.musicList = await this.loadMusic();
 
+        // Etapa do usuário
         const answerWithUserName: answerListInterface = await prompt(
             this.questions.questionListMenu(this.messageUser, this.usersList),
         );
-
         if (this.isCanceled(answerWithUserName, this.cancelar)) {
             mainMenu();
+        } else {
+            this.showMenuMusic(answerWithUserName);
         }
+    }
 
-        this.musicList = this.filterNotas(this.musicList, answerWithUserName.option);
+    private async showMenuMusic(answerWithUserName: answerListInterface): Promise<void> {
+        this.userSelected = answerWithUserName.option;
 
-        const answerWithMusicObject: answerObjectListInterface<musicSchemaInterface> = await prompt(
+        this.musicList = this.filterNotas(this.musicList);
+
+        const answerWithMusicObjectSelected: answerObjectListInterface<musicSchemaInterface> = await prompt(
             this.questions.questionListMenu(this.messageMusic, this.musicList),
         );
 
-        // console.log(this.musicList);
-        console.log(answerWithMusicObject);
-        
+        console.log(answerWithMusicObjectSelected);
     }
 
-    private filterNotas(
-        oldOptionsOfMusic: optionObject<musicSchemaInterface>[],
-        userSelected: string,
-    ): optionObject<musicSchemaInterface>[] {
+    private filterNotas(oldOptionsOfMusic: optionObject<musicSchemaInterface>[]): optionObject<musicSchemaInterface>[] {
         const newOptionsOfMusic: optionObject<musicSchemaInterface>[] = oldOptionsOfMusic.filter(
             (option: optionObject<musicSchemaInterface>) => {
-                return !this.isUserAssigned(option.value.notas, userSelected);
+                return !this.isUserAssigned(option.value.notas);
             },
         );
 
         return newOptionsOfMusic;
     }
 
-    private isUserAssigned(option: Array<notasObject>, userSelected: string): boolean {
+    private isUserAssigned(option: Array<notasObject>): boolean {
         let assigned = false;
         option.forEach((op) => {
-            if (op.user === userSelected) assigned = true;
+            if (op.user === this.userSelected) assigned = true;
         });
 
         return assigned;
