@@ -12,9 +12,10 @@ class UpdateRatingMenuController {
     private questions: Questions = new Questions();
     private usersList: optionObject<userSchemaInterface>[] = [];
     private musicList: optionObject<musicSchemaInterface>[] = [];
-    private messageUser: string = 'Escolha o usuário a dar a nota:';
-    private messageMusic: string = 'Escolha a música para dar a nota:';
+    private messageUser: string = 'Escolha o usuário que irá atualiza à nota:';
+    private messageMusic: string = 'Escolha a música para para atualizar à nota:';
     private userSelected: userSchemaInterface = new User();
+    private musicSelected: musicSchemaInterface = new Music();
     private messageToConfirm: string = 'Confirmar escolha?';
 
     async loadUsers(): Promise<optionObject<userSchemaInterface>[]> {
@@ -51,7 +52,6 @@ class UpdateRatingMenuController {
         return musicsFormattedToOptions;
     }
 
-
     async showMenu(): Promise<void> {
         this.usersList = await this.loadUsers();
         this.musicList = await this.loadMusic();
@@ -85,10 +85,33 @@ class UpdateRatingMenuController {
         );
 
         if (await this.doContinueOperation()) {
-            console.log(answerWithMusicObjectSelected);
-            
+            this.insertNotaMenu(answerWithMusicObjectSelected.option);
         } else {
             this.showMenu();
+        }
+    }
+
+    private async insertNotaMenu(musicSelected: musicSchemaInterface): Promise<void> {
+        try {
+            this.musicSelected = musicSelected;
+            const myNota: notasObject = this.getMyNota();
+
+            await this.updatedNota(myNota);
+            this.saveNotas();
+        } catch (e: any) {
+            console.log(e.message);
+        }
+    }
+
+    async saveNotas(): Promise<void> {
+        try {
+            this.musicSelected.media = this.sumMediaOfNotas(this.musicSelected.notas);
+            this.musicSelected.save();
+            console.log('Nota atualizada com Sucesso!');
+        } catch (e: any) {
+            console.log(e.message);
+        } finally {
+            mainMenu();
         }
     }
 
@@ -98,6 +121,29 @@ class UpdateRatingMenuController {
         mainMenu();
     }
 
+    private getMyNota(): notasObject {
+        const notas: notasObject[] = this.musicSelected.notas;
+        let nota: notasObject = {} as notasObject;
+
+        notas.forEach((notaObject) => {
+            if (notaObject.user === this.userSelected.name) {
+                nota = notaObject;
+            }
+        });
+
+        return nota;
+    }
+
+    private async updatedNota(myOldNota: notasObject): Promise<notasObject> {
+        let notaToBeUpdated: notasObject = myOldNota;
+
+        const answerWithNota: answerInputNumber = await prompt(
+            this.questions.questionInputNumber(`Entre com a sua nova nota (${myOldNota.nota}): `),
+        );
+
+        notaToBeUpdated.nota = answerWithNota.nota;
+        return notaToBeUpdated;
+    }
 
     private filterNotas(oldOptionsOfMusic: optionObject<musicSchemaInterface>[]): optionObject<musicSchemaInterface>[] {
         const newOptionsOfMusic: optionObject<musicSchemaInterface>[] = oldOptionsOfMusic.filter(
