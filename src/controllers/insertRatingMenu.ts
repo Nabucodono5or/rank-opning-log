@@ -49,6 +49,19 @@ class InsertRatingMenuController {
         return musicsFormattedToOptions;
     }
 
+    async saveNotas(data: musicSchemaInterface): Promise<void> {
+        try {
+            data.media = this.sumMediaOfNotas(data.notas);
+            data.save();
+            console.log(data);
+            console.log('Nota inserida com Sucesso!');
+        } catch (e: any) {
+            console.log(e.message);
+        } finally {
+            mainMenu();
+        }
+    }
+
     async showMenu(): Promise<void> {
         this.usersList = await this.loadUsers();
         this.usersList.push(this.cancelar);
@@ -92,9 +105,9 @@ class InsertRatingMenuController {
             this.questions.questionInputNumber('Entre com a sua nota: '),
         );
         const ratingOfUser: notasObject = { user: this.userSelected, nota: answerWithNota.nota };
-        
+
         musicObject.notas.push(ratingOfUser);
-        console.log(musicObject);
+        this.saveNotas(musicObject);
     }
 
     private filterNotas(oldOptionsOfMusic: optionObject<musicSchemaInterface>[]): optionObject<musicSchemaInterface>[] {
@@ -123,6 +136,16 @@ class InsertRatingMenuController {
         return false;
     }
 
+    private sumMediaOfNotas(users: notasObject[]): number {
+        let media = 0;
+        users.map((user) => {
+            media += user.nota;
+        });
+
+        media = media / users.length;
+        return media;
+    }
+
     private async doContinueOperation(): Promise<boolean> {
         const answer: answerConfirmContinueMenu = await prompt(
             this.questions.questionConfirmContinueMenu(this.messageToConfirm),
@@ -130,21 +153,6 @@ class InsertRatingMenuController {
 
         return answer.option;
     }
-
-    // async saveUser(data: answerInsertUserMenuInterface): Promise<void> {
-    //     try {
-    //         const user = await User.create({
-    //             name: data.name,
-    //         });
-
-    //         user.save();
-    //         console.log('Usuário Criado com Sucesso!');
-    //     } catch (e: any) {
-    //         console.log(e.message);
-    //     } finally {
-    //         mainMenu();
-    //     }
-    // }
 }
 
 export default InsertRatingMenuController;
