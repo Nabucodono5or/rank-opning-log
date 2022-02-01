@@ -6,6 +6,7 @@ import {
     answerInputNumber,
 } from '../types/answers';
 import { musicSchemaInterface } from '../types/music';
+import { userSchemaInterface } from '../types/user';
 import { optionObject, notasObject } from '../types/utility';
 import Questions from '../utils/questions';
 import User from '../schemas/User';
@@ -14,22 +15,29 @@ import mainMenu from '../mainMenu';
 
 class InsertRatingMenuController {
     private questions: Questions = new Questions();
-    private usersList: string[] = [];
+    private usersList: optionObject<userSchemaInterface>[] = [];
     private musicList: optionObject<musicSchemaInterface>[] = [];
     private messageUser: string = 'Escolha o usuário a dar a nota:';
     private messageMusic: string = 'Escolha a música para dar a nota:';
     private cancelar: 'Cancelar' = 'Cancelar';
-    private userSelected: string = '';
+    private userSelected: userSchemaInterface = new User();
     private messageToConfirm: string = 'Confirmar escolha?';
 
-    async loadUsers(): Promise<string[]> {
+    async loadUsers(): Promise<optionObject<userSchemaInterface>[]> {
         const users = await User.find();
 
-        const usersName: string[] = users.map((user): string => {
-            return user.name;
-        });
+        const usersFormattedToOptions: optionObject<userSchemaInterface>[] = users.map(
+            (user: userSchemaInterface): optionObject<userSchemaInterface> => {
+                const option: optionObject<userSchemaInterface> = {
+                    name: `${user.name}`,
+                    value: user,
+                };
 
-        return usersName;
+                return option;
+            },
+        );
+
+        return usersFormattedToOptions;
     }
 
     async loadMusic(): Promise<optionObject<musicSchemaInterface>[]> {
@@ -64,35 +72,49 @@ class InsertRatingMenuController {
 
     async showMenu(): Promise<void> {
         this.usersList = await this.loadUsers();
-        this.usersList.push(this.cancelar);
         this.musicList = await this.loadMusic();
 
         // Etapa do usuário
-        const answerWithUserName: answerListInterface = await prompt(
+        const answerWithUserName: answerObjectListInterface<userSchemaInterface> = await prompt(
             this.questions.questionListMenu(this.messageUser, this.usersList),
         );
-        if (this.isCanceled(answerWithUserName, this.cancelar)) {
-            mainMenu();
-        } else {
+
+        console.log(answerWithUserName.option.name);
+
+        if (await this.doContinueOperation()) {
             this.showMenuMusic(answerWithUserName);
+        } else {
+            mainMenu();
         }
+
+        // if (this.isCanceled(answerWithUserName, this.cancelar)) {
+        //     mainMenu();
+        // } else {
+        //     this.showMenuMusic(answerWithUserName);
+        // }
     }
 
-    private async showMenuMusic(answerWithUserName: answerListInterface): Promise<void> {
+    private async showMenuMusic(answerWithUserName: answerObjectListInterface<userSchemaInterface>): Promise<void> {
         this.userSelected = answerWithUserName.option;
 
         this.musicList = this.filterNotas(this.musicList);
 
-        const answerWithMusicObjectSelected: answerObjectListInterface<musicSchemaInterface> = await prompt(
-            this.questions.questionListMenu(this.messageMusic, this.musicList),
-        );
+        if (this.musicList.length > 0) {
+            const answerWithMusicObjectSelected: answerObjectListInterface<musicSchemaInterface> = await prompt(
+                this.questions.questionListMenu(this.messageMusic, this.musicList),
+            );
 
-        console.log(answerWithMusicObjectSelected);
+            console.log(answerWithMusicObjectSelected);
 
-        if (await this.doContinueOperation()) {
-            this.showMenuNotas(answerWithMusicObjectSelected);
+            if (await this.doContinueOperation()) {
+                this.showMenuNotas(answerWithMusicObjectSelected);
+            } else {
+                this.showMenu();
+            }
         } else {
-            this.showMenu();
+            console.log('Você não tem músicas para votar!');
+            console.log('');
+            mainMenu();
         }
     }
 
@@ -104,7 +126,7 @@ class InsertRatingMenuController {
         const answerWithNota: answerInputNumber = await prompt(
             this.questions.questionInputNumber('Entre com a sua nota: '),
         );
-        const ratingOfUser: notasObject = { user: this.userSelected, nota: answerWithNota.nota };
+        const ratingOfUser: notasObject = { user: this.userSelected.name, nota: answerWithNota.nota };
 
         musicObject.notas.push(ratingOfUser);
         this.saveNotas(musicObject);
@@ -123,18 +145,18 @@ class InsertRatingMenuController {
     private isUserAssigned(option: Array<notasObject>): boolean {
         let assigned = false;
         option.forEach((op) => {
-            if (op.user === this.userSelected) assigned = true;
+            if (op.user === this.userSelected.name) assigned = true;
         });
 
         return assigned;
     }
 
-    private isCanceled(answer: answerListInterface, cancelar: 'Cancelar'): boolean {
-        if (answer.option === cancelar) {
-            return true;
-        }
-        return false;
-    }
+    // private isCanceled(answer: answerListInterface, cancelar: 'Cancelar'): boolean {
+    //     if (answer.option === cancelar) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     private sumMediaOfNotas(users: notasObject[]): number {
         let media = 0;
