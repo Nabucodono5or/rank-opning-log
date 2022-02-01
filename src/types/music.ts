@@ -1,5 +1,4 @@
 import { Document } from 'mongoose';
-import { userSchemaInterface } from './user';
 
 export interface musicSchemaInterface extends Document {
     anime: string;
