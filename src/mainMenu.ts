@@ -4,6 +4,7 @@ import { answerListInterface } from './types/answers';
 import InsertMusicMenu from './controllers/insertMusicMenu';
 import InsertUserMenu from './controllers/insertUserMenu';
 import InsertRatingMenu from './controllers/insertRatingMenu';
+import UpdateRatingMenuController from './controllers/updateRatingMenu';
 import mongoose from 'mongoose';
 
 const questions: Questions = new Questions();
@@ -38,7 +39,11 @@ const mainMenu = async (): Promise<void> => {
         insertRatingMenuController.showMenu();
     }
 
-    if (answers.option === options[3]) console.log(options[3]);
+    if (answers.option === options[3]) {
+        const updateRatingMenuController = new UpdateRatingMenuController();
+        updateRatingMenuController.showMenu();
+    }
+
     if (answers.option === options[4]) console.log(options[4]);
     if (answers.option === options[5]) console.log(options[5]);
     if (answers.option === options[6]) console.log(options[6]);
