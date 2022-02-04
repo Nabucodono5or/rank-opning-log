@@ -18,11 +18,11 @@
     [x] selecionar musica (com usuário no objeto)
     [x] reescrever nota
     [x] calcular media
-[] remover nota
-    [] selecionar usuário
-    [] selecionar musica (com usuário)
-    [] confirmar
-    [] calcular media
+[x] remover nota
+    [x] selecionar usuário
+    [x] selecionar musica (com usuário)
+    [x] confirmar
+    [x] calcular media
 [] Atualizar musica
     [] selecionar musica
     [] escolher opção a ser Atualizada
