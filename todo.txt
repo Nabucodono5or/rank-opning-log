@@ -12,12 +12,12 @@
     [x] selecionar musica (sem o usuário no objeto)
     [x] inserir nota
     [x] calcular media
-[]Atualizar nota
-    [] selecionar usuário
-    [] selecionar usuário (com opção de cancelar)
-    [] selecionar musica (com usuário no objeto)
-    [] reescrever nota
-    [] calcular media
+[x]Atualizar nota
+    [x] selecionar usuário
+    [x] selecionar usuário (com opção de cancelar)
+    [x] selecionar musica (com usuário no objeto)
+    [x] reescrever nota
+    [x] calcular media
 [] remover nota
     [] selecionar usuário
     [] selecionar musica (com usuário)

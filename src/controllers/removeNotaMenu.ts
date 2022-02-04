@@ -8,13 +8,14 @@ import User from '../schemas/User';
 import Music from '../schemas/Music';
 import mainMenu from '../mainMenu';
 
-class InsertRatingMenuController {
+class RemoveRatingMenuController {
     private questions: Questions = new Questions();
     private usersList: optionObject<userSchemaInterface>[] = [];
     private musicList: optionObject<musicSchemaInterface>[] = [];
-    private messageUser: string = 'Escolha o usuário a dar a nota:';
-    private messageMusic: string = 'Escolha a música para dar a nota:';
+    private messageUser: string = 'Escolha o usuário que irá terá a nota:';
+    private messageMusic: string = 'Escolha a música para remover sua nota:';
     private userSelected: userSchemaInterface = new User();
+    private musicSelected: musicSchemaInterface = new Music();
     private messageToConfirm: string = 'Confirmar escolha?';
 
     async loadUsers(): Promise<optionObject<userSchemaInterface>[]> {
@@ -51,19 +52,6 @@ class InsertRatingMenuController {
         return musicsFormattedToOptions;
     }
 
-    async saveNotas(data: musicSchemaInterface): Promise<void> {
-        try {
-            data.media = this.sumMediaOfNotas(data.notas);
-            data.save();
-            console.log(data);
-            console.log('Nota inserida com Sucesso!');
-        } catch (e: any) {
-            console.log(e.message);
-        } finally {
-            mainMenu();
-        }
-    }
-
     async showMenu(): Promise<void> {
         this.usersList = await this.loadUsers();
         this.musicList = await this.loadMusic();
@@ -97,36 +85,46 @@ class InsertRatingMenuController {
         );
 
         if (await this.doContinueOperation()) {
-            this.showMenuNotas(answerWithMusicObjectSelected);
+            this.removeNotaMenu(answerWithMusicObjectSelected.option);
         } else {
             this.showMenu();
         }
     }
 
-    private noMusicToSelect(): void {
-        console.log('Você não tem músicas para votar!');
-        console.log('');
-        mainMenu();
+    private async removeNotaMenu(musicSelected: musicSchemaInterface): Promise<void> {
+        try {
+            this.musicSelected = musicSelected;
+            const notas = await this.removeNotas();
+            this.musicSelected.notas = notas;
+            this.musicSelected.media = this.sumMediaOfNotas(this.musicSelected.notas);
+            this.musicSelected.save();
+            console.log('Nota removida com sucesso!');
+        } catch (e: any) {
+            console.log(e.message);
+        } finally {
+            mainMenu();
+        }
     }
 
-    private async showMenuNotas(
-        answerWithMusicObjectSelected: answerObjectListInterface<musicSchemaInterface>,
-    ): Promise<void> {
-        const musicObject: musicSchemaInterface = answerWithMusicObjectSelected.option;
+    async removeNotas(): Promise<Array<notasObject>> {
+        let notas: Array<notasObject> = this.musicSelected.notas;
+        notas = notas.filter((nota: notasObject) => {
+            return nota.user !== this.userSelected.name;
+        });
 
-        const answerWithNota: answerInputNumber = await prompt(
-            this.questions.questionInputNumber('Entre com a sua nota: '),
-        );
-        const ratingOfUser: notasObject = { user: this.userSelected.name, nota: answerWithNota.nota };
+        return notas;
+    }
 
-        musicObject.notas.push(ratingOfUser);
-        this.saveNotas(musicObject);
+    private noMusicToSelect(): void {
+        console.log('Você não tem músicas votadas!');
+        console.log('');
+        mainMenu();
     }
 
     private filterNotas(oldOptionsOfMusic: optionObject<musicSchemaInterface>[]): optionObject<musicSchemaInterface>[] {
         const newOptionsOfMusic: optionObject<musicSchemaInterface>[] = oldOptionsOfMusic.filter(
             (option: optionObject<musicSchemaInterface>) => {
-                return !this.isUserAssigned(option.value.notas);
+                return this.isUserAssigned(option.value.notas);
             },
         );
 
@@ -144,11 +142,15 @@ class InsertRatingMenuController {
 
     private sumMediaOfNotas(users: Array<notasObject>): number {
         let media = 0;
-        users.map((user) => {
-            media += user.nota;
-        });
 
-        media = media / users.length;
+        if (users.length > 0) {
+            users.map((user) => {
+                media += user.nota;
+            });
+
+            media = media / users.length;
+        }
+
         return media;
     }
 
@@ -161,4 +163,4 @@ class InsertRatingMenuController {
     }
 }
 
-export default InsertRatingMenuController;
+export default RemoveRatingMenuController;
