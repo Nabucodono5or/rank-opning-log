@@ -85,7 +85,7 @@ class Questions {
         const question: QuestionInputNumberInterface[] = [
             {
                 type: 'number',
-                name: 'nota',
+                nota: 'nota',
                 message,
             },
         ];

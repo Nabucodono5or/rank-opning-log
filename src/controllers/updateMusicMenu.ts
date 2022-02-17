@@ -1,5 +1,5 @@
 import { prompt } from 'inquirer';
-import { answerObjectListInterface, answerConfirmContinueMenu, answerInputNumber } from '../types/answers';
+import { answerObjectListInterface, answerConfirmContinueMenu, answerListInterface } from '../types/answers';
 import { musicSchemaInterface } from '../types/music';
 import { optionObject } from '../types/utility';
 import { Types } from 'mongoose';
@@ -11,8 +11,9 @@ class UpdateMusicMenuController {
     private questions: Questions = new Questions();
     private musicList: optionObject<musicSchemaInterface>[] = [];
     private messageMusic: string = 'Escolha a música para para atualizar à nota:';
-    private musicSelected: musicSchemaInterface = new Music();
+    private musicSelected: musicSchemaInterface | null = new Music();
     private messageToConfirm: string = 'Confirmar escolha?';
+    private messageListProperty: string = 'Escolha o item a ser alterado';
 
     async loadMusic(): Promise<optionObject<musicSchemaInterface>[]> {
         let musics: musicSchemaInterface[] = await Music.find();
@@ -50,15 +51,37 @@ class UpdateMusicMenuController {
     }
 
     private async selectMusicProprietyMenu(musicId: answerObjectListInterface<Types.ObjectId>): Promise<void> {
-        const music: musicSchemaInterface | null = await Music.findById(musicId.option);
-        console.log(music);
-        // const answerWithMusicObjectSelected: answerObjectListInterface<musicSchemaInterface> = await prompt(
-        //     this.questions.questionListMenu(this.messageMusic, this.musicList),
-        // );
+        try {
+            this.musicSelected = await Music.findById(musicId.option);
+            const options = this.generateOptionsForProperty();
+
+            const answer: answerListInterface = await prompt(
+                this.questions.questionListMenu(this.messageListProperty, options),
+            );
+
+            console.log(answer);
+        } catch (e: any) {
+            console.log(e.message);
+        }
+    }
+
+    private generateOptionsForProperty(): Array<string> {
+        const { anime, tipo, numero, musica } = this.musicSelected
+            ? this.musicSelected
+            : { anime: '', tipo: [], numero: 0, musica: '' };
+
+        const options: Array<string> = [
+            `Anime que apresenta essa canção: (${anime})`,
+            `O tipo (${tipo})`,
+            `Número da opening ou ending no anime (${numero})`,
+            `Título da música (${musica})`,
+        ];
+
+        return options;
     }
 
     private noMusicToSelect(): void {
-        console.log('Você não tem músicas remover!');
+        console.log('Você não tem músicas atualizar!');
         console.log('');
         mainMenu();
     }
