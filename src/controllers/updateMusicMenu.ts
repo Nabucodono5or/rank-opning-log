@@ -1,5 +1,5 @@
 import { prompt } from 'inquirer';
-import { answerObjectListInterface, answerConfirmContinueMenu, answerListInterface } from '../types/answers';
+import { answerObjectListInterface, answerConfirmContinueMenu, answerListInterface, answerInputNumber } from '../types/answers';
 import { musicSchemaInterface } from '../types/music';
 import { optionObject } from '../types/utility';
 import { Types } from 'mongoose';
@@ -95,19 +95,54 @@ class UpdateMusicMenuController {
     private updateMusicProperty(answer: answerObjectListInterface<number>): void {
         switch (answer.option) {
             case 1:
-                console.log('escolhida a opção 1');
+                this.updateMusicPropertyAnime();
                 break;
             case 2:
-                console.log('escolhida a opção 2');
+                this.updateMusicPropertyTipo();
                 break;
             case 3:
-                console.log('escolhida a opção 3');
+                this.updateMusicPropertySongNumber();
                 break;
             case 4:
                 console.log('escolhida a opção 4');
                 break;
         }
     }
+
+    private async updateMusicPropertyAnime() {
+        const answer: answerListInterface = await prompt(
+            this.questions.questionInputString('Insira o título do anime ao qual essa canção pertence: '),
+        );
+
+        if (this.musicSelected){
+            this.musicSelected.anime = answer.option;
+            console.log(this.musicSelected);
+        }
+    }
+
+    private async updateMusicPropertyTipo() {
+        const answer: answerListInterface = await prompt(
+            this.questions.questionListMenu('Escolha onde se apresenta a canção: ', ['opening', 'ending']),
+        );
+
+        if (this.musicSelected){
+            this.musicSelected.tipo = [answer.option];
+            console.log(this.musicSelected);
+        }
+    }
+
+
+    private async updateMusicPropertySongNumber() {
+        const answer: answerInputNumber = await prompt(
+            this.questions.questionInputNumber('Entre com o número da canção no anime:')
+        );
+
+        if (this.musicSelected){
+            this.musicSelected.numero = answer.nota;
+            console.log(this.musicSelected);
+        }
+    }
+
 
     private noMusicToSelect(): void {
         console.log('Você não tem músicas atualizar!');

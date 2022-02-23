@@ -19,7 +19,7 @@ export type QuestionConfirm = {
 
 export type QuestionInputNumberInterface = {
     type: string;
-    nota: string;
+    name: string;
     message: string;    
 }
 

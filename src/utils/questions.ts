@@ -3,6 +3,7 @@ import {
     QuestionsArray,
     QuestionConfirm,
     QuestionInputNumberInterface,
+    QuestionInputInterface,
 } from '../types/questions';
 
 class Questions {
@@ -85,13 +86,26 @@ class Questions {
         const question: QuestionInputNumberInterface[] = [
             {
                 type: 'number',
-                nota: 'nota',
+                name: 'nota',
                 message,
             },
         ];
 
         return question;
     }
+
+    questionInputString(message: string): QuestionInputInterface[] {
+        const question: QuestionInputInterface[] = [
+            {
+                type: 'input',
+                name: 'option',
+                message,
+            },
+        ];
+
+        return question;
+    }
+
 }
 
 export default Questions;
