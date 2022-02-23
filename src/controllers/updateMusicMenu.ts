@@ -55,11 +55,11 @@ class UpdateMusicMenuController {
             this.musicSelected = await Music.findById(musicId.option);
             const options = this.generateOptionsForProperty();
 
-            const answer: answerListInterface = await prompt(
+            const answer: answerObjectListInterface<number> = await prompt(
                 this.questions.questionListMenu(this.messageListProperty, options),
             );
 
-            console.log(answer);
+            this.updateMusicProperty(answer);
         } catch (e: any) {
             console.log(e.message);
         }
@@ -90,6 +90,23 @@ class UpdateMusicMenuController {
         ];
 
         return options;
+    }
+
+    private updateMusicProperty(answer: answerObjectListInterface<number>): void {
+        switch (answer.option) {
+            case 1:
+                console.log('escolhida a opção 1');
+                break;
+            case 2:
+                console.log('escolhida a opção 2');
+                break;
+            case 3:
+                console.log('escolhida a opção 3');
+                break;
+            case 4:
+                console.log('escolhida a opção 4');
+                break;
+        }
     }
 
     private noMusicToSelect(): void {
