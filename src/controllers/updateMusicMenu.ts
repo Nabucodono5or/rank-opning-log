@@ -65,16 +65,28 @@ class UpdateMusicMenuController {
         }
     }
 
-    private generateOptionsForProperty(): Array<string> {
+    private generateOptionsForProperty(): optionObject<number>[] {
         const { anime, tipo, numero, musica } = this.musicSelected
             ? this.musicSelected
             : { anime: '', tipo: [], numero: 0, musica: '' };
 
-        const options: Array<string> = [
-            `Anime que apresenta essa canção: (${anime})`,
-            `O tipo (${tipo})`,
-            `Número da opening ou ending no anime (${numero})`,
-            `Título da música (${musica})`,
+        const options: optionObject<number>[] = [
+            {
+                name: `Anime que apresenta essa canção: (${anime})`,
+                value: 1,
+            },
+            {
+                name: `O tipo (${tipo})`,
+                value: 2,
+            },
+            {
+                name: `Número da opening ou ending no anime (${numero})`,
+                value: 3,
+            },
+            {
+                name: `Título da música (${musica})`,
+                value: 4,
+            },
         ];
 
         return options;
