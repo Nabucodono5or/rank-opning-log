@@ -1,5 +1,10 @@
 import { prompt } from 'inquirer';
-import { answerObjectListInterface, answerConfirmContinueMenu, answerListInterface, answerInputNumber } from '../types/answers';
+import {
+    answerObjectListInterface,
+    answerConfirmContinueMenu,
+    answerListInterface,
+    answerInputNumber,
+} from '../types/answers';
 import { musicSchemaInterface } from '../types/music';
 import { optionObject } from '../types/utility';
 import { Types } from 'mongoose';
@@ -87,6 +92,10 @@ class UpdateMusicMenuController {
                 name: `Título da música (${musica})`,
                 value: 4,
             },
+            {
+                name: `Sair para o menu principal`,
+                value: 5,
+            },
         ];
 
         return options;
@@ -106,6 +115,9 @@ class UpdateMusicMenuController {
             case 4:
                 this.updateMusicPropertyTitleMusic();
                 break;
+            case 5:
+                this.backToMainMenu();
+                break;
         }
     }
 
@@ -113,10 +125,16 @@ class UpdateMusicMenuController {
         const answer: answerListInterface = await prompt(
             this.questions.questionInputString('Insira o título do anime ao qual essa canção pertence: '),
         );
-
-        if (this.musicSelected){
-            this.musicSelected.anime = answer.option;
-            console.log(this.musicSelected);
+        try {
+            if (this.musicSelected) {
+                this.musicSelected.anime = answer.option;
+                await this.musicSelected.save();
+                console.log('Atualização Salva com sucesso!');
+            }
+        } catch (e: any) {
+            console.log(e.message);
+        } finally {
+            mainMenu();
         }
     }
 
@@ -125,40 +143,62 @@ class UpdateMusicMenuController {
             this.questions.questionListMenu('Escolha onde se apresenta a canção: ', ['opening', 'ending']),
         );
 
-        if (this.musicSelected){
-            this.musicSelected.tipo = [answer.option];
-            console.log(this.musicSelected);
+        try {
+            if (this.musicSelected) {
+                this.musicSelected.tipo = [answer.option];
+                await this.musicSelected.save();
+                console.log('Atualização Salva com sucesso!');
+            }
+        } catch (e: any) {
+            console.log(e.message);
+        } finally {
+            mainMenu();
         }
     }
-
 
     private async updateMusicPropertySongNumber() {
         const answer: answerInputNumber = await prompt(
-            this.questions.questionInputNumber('Entre com o número da canção no anime:')
+            this.questions.questionInputNumber('Entre com o número da canção no anime:'),
         );
 
-        if (this.musicSelected){
-            this.musicSelected.numero = answer.nota;
-            console.log(this.musicSelected);
+        try {
+            if (this.musicSelected) {
+                this.musicSelected.numero = answer.nota;
+                await this.musicSelected.save();
+                console.log('Atualização Salva com sucesso!');
+            }
+        } catch (e: any) {
+            console.log(e.message);
+        } finally {
+            mainMenu();
         }
     }
-
 
     private async updateMusicPropertyTitleMusic() {
         const answer: answerListInterface = await prompt(
-            this.questions.questionInputString('Entre com o titulo da canção:')
+            this.questions.questionInputString('Entre com o titulo da canção:'),
         );
 
-        if (this.musicSelected){
-            this.musicSelected.musica = answer.option;
-            console.log(this.musicSelected);
+        try {
+            if (this.musicSelected) {
+                this.musicSelected.musica = answer.option;
+                await this.musicSelected.save();
+                console.log('Atualização Salva com sucesso!');
+            }
+        } catch (e: any) {
+            console.log(e.message);
+        } finally {
+            mainMenu();
         }
     }
-
 
     private noMusicToSelect(): void {
         console.log('Você não tem músicas atualizar!');
         console.log('');
+        mainMenu();
+    }
+
+    private backToMainMenu(): void {
         mainMenu();
     }
 
