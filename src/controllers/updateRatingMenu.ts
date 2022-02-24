@@ -106,7 +106,7 @@ class UpdateRatingMenuController {
     async saveNotas(): Promise<void> {
         try {
             this.musicSelected.media = this.sumMediaOfNotas(this.musicSelected.notas);
-            this.musicSelected.save();
+            await this.musicSelected.save();
             console.log('Nota atualizada com Sucesso!');
         } catch (e: any) {
             console.log(e.message);

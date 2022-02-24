@@ -38,7 +38,7 @@ class InsertUserMenuController {
                 name: data.name,
             });
 
-            user.save();
+            await user.save();
             console.log('Usuário Criado com Sucesso!');
         } catch (e: any) {
             console.log(e.message);

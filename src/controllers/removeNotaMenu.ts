@@ -97,7 +97,7 @@ class RemoveRatingMenuController {
             const notas = await this.removeNotas();
             this.musicSelected.notas = notas;
             this.musicSelected.media = this.sumMediaOfNotas(this.musicSelected.notas);
-            this.musicSelected.save();
+            await this.musicSelected.save();
             console.log('Nota removida com sucesso!');
         } catch (e: any) {
             console.log(e.message);

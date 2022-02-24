@@ -26,7 +26,7 @@
 [x] Atualizar musica
     [x] selecionar musica
     [x] escolher opção a ser Atualizada
-    [] entrar dado
+    [x] entrar dado
 [] remover musica
     [] selecionar musica
     [] confirmar

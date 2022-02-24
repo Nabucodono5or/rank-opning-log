@@ -54,7 +54,7 @@ class InsertRatingMenuController {
     async saveNotas(data: musicSchemaInterface): Promise<void> {
         try {
             data.media = this.sumMediaOfNotas(data.notas);
-            data.save();
+            await data.save();
             console.log(data);
             console.log('Nota inserida com Sucesso!');
         } catch (e: any) {

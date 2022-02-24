@@ -44,7 +44,7 @@ class InsertMusicMenuController {
                 media: 0,
             });
 
-            music.save();
+            await music.save();
             console.log('Música Criada com Sucesso!');
         } catch (e: any) {
             console.log(e.message);
