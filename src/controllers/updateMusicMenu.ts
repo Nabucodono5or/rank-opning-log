@@ -104,7 +104,7 @@ class UpdateMusicMenuController {
                 this.updateMusicPropertySongNumber();
                 break;
             case 4:
-                console.log('escolhida a opção 4');
+                this.updateMusicPropertyTitleMusic();
                 break;
         }
     }
@@ -139,6 +139,18 @@ class UpdateMusicMenuController {
 
         if (this.musicSelected){
             this.musicSelected.numero = answer.nota;
+            console.log(this.musicSelected);
+        }
+    }
+
+
+    private async updateMusicPropertyTitleMusic() {
+        const answer: answerListInterface = await prompt(
+            this.questions.questionInputString('Entre com o titulo da canção:')
+        );
+
+        if (this.musicSelected){
+            this.musicSelected.musica = answer.option;
             console.log(this.musicSelected);
         }
     }

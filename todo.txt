@@ -23,9 +23,9 @@
     [x] selecionar musica (com usuário)
     [x] confirmar
     [x] calcular media
-[] Atualizar musica
-    [] selecionar musica
-    [] escolher opção a ser Atualizada
+[x] Atualizar musica
+    [x] selecionar musica
+    [x] escolher opção a ser Atualizada
     [] entrar dado
 [] remover musica
     [] selecionar musica
