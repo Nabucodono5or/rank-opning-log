@@ -27,12 +27,17 @@
     [x] selecionar musica
     [x] escolher opção a ser Atualizada
     [x] entrar dado
-[] remover musica
-    [] selecionar musica
-    [] confirmar
+[x] remover musica
+    [x] selecionar musica
+    [x] confirmar
 [] listar musica
     [] ordenar musicas por media
     [] imprimir resultado formatado
+[] remover user
+    []selecionar user
+    []remover user do banco de dados
+    []confirmar remoção
+    []remover notas do usuário para todas as musicas
 
 ## banco de dados -- rank-opening; collection -- opening
 {

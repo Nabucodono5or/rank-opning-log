@@ -8,6 +8,7 @@ import UpdateRatingMenuController from './controllers/updateRatingMenu';
 import RemoveRatingMenuController from './controllers/removeNotaMenu';
 import UpdateMusicMenuController from './controllers/updateMusicMenu';
 import RemoveMusicMenuController from './controllers/removeMusicMenu';
+import RemoveUserMenuController from './controllers/removeUserMenu';
 import mongoose from 'mongoose';
 
 const questions: Questions = new Questions();
@@ -20,6 +21,7 @@ const options: Array<string> = [
     'Remover nota',
     'Atualizar musica',
     'Remover musica',
+    'Remover usuário',
     'Listar musica',
     'Sair',
 ];
@@ -62,7 +64,10 @@ const mainMenu = async (): Promise<void> => {
         removeMusicMenuController.showMenu();
     } 
 
-    if (answers.option === options[7]) console.log(options[7]);
+    if (answers.option === options[7]) {
+        const removeUserMenuController = new RemoveUserMenuController();
+        removeUserMenuController.showMenu();
+    }
     if (answers.option === options[8]) mongoose.connection.close();
 };
 
