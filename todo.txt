@@ -30,14 +30,14 @@
 [x] remover musica
     [x] selecionar musica
     [x] confirmar
-[] listar musica
-    [] ordenar musicas por media
-    [] imprimir resultado formatado
-[] remover user
-    []selecionar user
-    []remover user do banco de dados
-    []confirmar remoção
-    []remover notas do usuário para todas as musicas
+[x] listar musica
+    [x] ordenar musicas por media
+    [x] imprimir resultado formatado
+[x] remover user
+    [x]selecionar user
+    [x]remover user do banco de dados
+    [x]confirmar remoção
+    [x]remover notas do usuário para todas as musicas
 
 ## banco de dados -- rank-opening; collection -- opening
 {
