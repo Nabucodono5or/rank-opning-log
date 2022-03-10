@@ -9,6 +9,7 @@ import RemoveRatingMenuController from './controllers/removeNotaMenu';
 import UpdateMusicMenuController from './controllers/updateMusicMenu';
 import RemoveMusicMenuController from './controllers/removeMusicMenu';
 import RemoveUserMenuController from './controllers/removeUserMenu';
+import ListMusicsMenuController from './controllers/listMusicsMenu';
 import mongoose from 'mongoose';
 
 const questions: Questions = new Questions();
@@ -68,7 +69,13 @@ const mainMenu = async (): Promise<void> => {
         const removeUserMenuController = new RemoveUserMenuController();
         removeUserMenuController.showMenu();
     }
-    if (answers.option === options[8]) mongoose.connection.close();
+
+    if (answers.option === options[8]) {
+        const listMusicsMenuController = new ListMusicsMenuController();
+        listMusicsMenuController.showMenu();
+    }
+
+    if (answers.option === options[9]) mongoose.connection.close();
 };
 
 export default mainMenu;
