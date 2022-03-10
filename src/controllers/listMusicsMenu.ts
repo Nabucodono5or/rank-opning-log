@@ -6,19 +6,39 @@ class ListMusicMenuController {
     private musicList: musicSchemaInterface[] = [];
 
     async loadMusic(): Promise<musicSchemaInterface[]> {
-        let musics = await Music.find().sort('media');
+        let musics = await Music.find().sort({media: -1});
         return musics;
     }
 
     async showMenu(): Promise<void> {
         this.musicList = await this.loadMusic();
-        this.printMusicsResulted();
+        if(this.musicList.length > 0){
+            this.printMusicsResulted();
+            mainMenu();
+        }else{
+            this.noMusicToSelect();
+        }
     }
 
     private printMusicsResulted(): void {
-        this.musicList.forEach((music) => {
-            console.log(music);
+        let index: number = 0;
+        let result: string;
+
+        this.markLine();
+        console.log("RANKING DE OPENINGS E ENDINGS");
+        
+        this.musicList.forEach(music => {
+            result = `${index}) ${music.anime} -- ${music.musica} ( ${music.tipo} ${music.numero} ) | Nota: ${music.media}`;
+            console.log(result);
+            index++;
         });
+
+        this.markLine();
+    }
+
+    private markLine(): void{
+        console.log();
+        console.log("--------------------------------------------------------");
     }
 
     private noMusicToSelect(): void {
