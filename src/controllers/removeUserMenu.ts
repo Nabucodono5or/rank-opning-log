@@ -49,17 +49,20 @@ class RemoveUserMenuController {
         );
 
         if (await this.doContinueOperation()) {
-            this.updateMusics(answerWithUserName.option);
+            await this.updateMusics(answerWithUserName.option);
+            await this.removeUser(answerWithUserName.option);
+            console.log("Usuário removido com sucesso!!");
+            mainMenu();
         } else {
             mainMenu();
         }
     }
 
-    // salvar mudanças para cada musica
+
     private async updateMusics(user: userSchemaInterface): Promise<void> {
         this.musicList = await this.loadMusic(user.name);
-        this.musicList.forEach(music => {
-            this.updateNotas(music, user.name);
+        this.musicList.forEach(async (music) => {
+            await this.updateNotas(music, user.name);
         });
     }
 
@@ -68,17 +71,26 @@ class RemoveUserMenuController {
                 return nota.user != user;
         });
 
-        // atualizar media
-        // salvar music
-        //verificar await de this.updateNotas
         music.notas = notas;
         music.media = this.sumMediaOfNotas(notas);
-
-        console.log(music);
+        
+        try {
+            await music.save();
+            
+        } catch (e: any) {
+            console.log(e.message);
+        }
 
         return music;
     }
 
+    private async removeUser(user: userSchemaInterface): Promise<void> {
+        try {
+            user.remove();
+        } catch (e: any) {
+            console.log(e.message);
+        }
+    }
 
     private sumMediaOfNotas(users: Array<notasObject>): number {
         let media = 0;
