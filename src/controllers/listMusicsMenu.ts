@@ -21,7 +21,7 @@ class ListMusicMenuController {
     }
 
     private printMusicsResulted(): void {
-        let index: number = 0;
+        let index: number = 1;
         let result: string;
 
         this.markLine();
